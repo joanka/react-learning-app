@@ -4,13 +4,14 @@ import {Grid, Paper, Typography, List, ListItem, ListItemText} from '@material-u
 const styles = {
   Paper: {padding: 20, margin: 10, height: 500, overflow: 'auto'}
 }
-export default ({exercises}) => {
+export default ({exercises, category, onSelect, exercise: {title = 'Welcome', description = 'Please select an exercise from the list on the left.'}}) => {
   
   return (
     <Grid container>
       <Grid item sm xs={12}>
       <Paper style={styles.Paper}>
       {exercises.map(([group, exercises]) => 
+        !category || category === group ?
           <Fragment key={group}>
             <Typography 
             variant="headline"
@@ -22,17 +23,27 @@ export default ({exercises}) => {
                     <ListItem
                       key={id}
                       button
+                      onClick={() => onSelect(id)}
                     >
-                      <ListItemText primary={title} />
+                      <ListItemText 
+                      primary={title}/>
                     </ListItem>
                   )}
                 </List>
-          </Fragment>   
+          </Fragment> 
+          : null  
         )}
       </Paper>
       </Grid>
       <Grid item sm xs={12}>
-      <Paper style={styles.Paper}> Welcome! </Paper>
+      <Paper style={styles.Paper}>
+        <Typography variant="display1">
+            {title}
+        </Typography>
+        <Typography variant="subheading" style={{marginTop: 15}}>
+            {description}
+        </Typography>
+      </Paper>
       </Grid>
     </Grid>
   )
