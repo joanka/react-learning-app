@@ -33,13 +33,27 @@ class App extends Component {
       exercise: exercises.find((ex) => ex.id === id) 
     }))
   }
+  
+  handleExerciseCreate = exercise => {
+    this.setState({
+      exercises: [
+        ...exercises,
+        exercise
+      ]
+    })
+  }
+  
+  
   render() {
     console.log(this.getExercisesByCategory());
     const exercises = this.getExercisesByCategory(),
     { category, exercise } = this.state;
     return (
       <Fragment>
-        <Header/>
+        <Header
+          categories={categories}
+          onExerciseCreate={this.handleExerciseCreate}
+        />
         <Exercises
         exercise={exercise} 
         exercises={exercises}
