@@ -12,13 +12,15 @@ class App extends Component {
   }
   
   getExercisesByCategory() {
+    const initExercises = categories.reduce((exercises, category) => (
+      {...exercises,
+      [category]: []}
+    ), {})
     return Object.entries(this.state.exercises.reduce((exercises, exercise) => {    
       const {category} = exercise;
-      exercises[category] = exercises[category] 
-      ? [...exercises[category], exercise] 
-      : [exercise];
+      exercises[category] = [...exercises[category], exercise];
       return exercises;     
-    },{})
+    }, initExercises)
     )
   }
   
@@ -43,6 +45,11 @@ class App extends Component {
     })
   }
   
+  handleExerciseDelete = id => {
+    this.setState(({exercises}) => ({
+      exercises: exercises.filter((ex) => ex.id !== id),
+    }))       
+  }
   
   render() {
     console.log(this.getExercisesByCategory());
@@ -58,7 +65,8 @@ class App extends Component {
         exercise={exercise} 
         exercises={exercises}
         category={category}
-        onSelect={this.handleExerciseSelected}/>
+        onSelect={this.handleExerciseSelected}
+        onDelete={this.handleExerciseDelete}/>
         <Footer 
           categories={categories} 
           category={category}
