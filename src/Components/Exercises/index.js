@@ -1,20 +1,33 @@
 import React, { Fragment } from 'react';
 import {Grid, Paper, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import {Delete, Edit} from '@material-ui/icons';
+import Form from './Form';
 
 const styles = {
   Paper: {padding: 20, margin: 10, height: 500, overflow: 'auto'}
 }
-export default ({exercises, category, onSelect, exercise: {title = 'Welcome', description = 'Please select an exercise from the list on the left.'}, onDelete}) => {
-  
+export default ({
+  exercises,
+  category,
+  categories,
+  onSelect,
+  exercise,
+  exercise: {
+    title = 'Welcome',
+    description = 'Please select an exercise from the list on the left.'},
+  onDelete,
+  onSelectEdit,
+  editMode,
+  onEdit}) => {
+
   return (
     <Grid container>
       <Grid item sm xs={12}>
       <Paper style={styles.Paper}>
-      {exercises.map(([group, exercises]) => 
+      {exercises.map(([group, exercises]) =>
         !category || category === group ?
           <Fragment key={group}>
-            <Typography 
+            <Typography
             variant="headline"
             style={{textTransform: "capitalize"}}>
             {group}
@@ -26,29 +39,39 @@ export default ({exercises, category, onSelect, exercise: {title = 'Welcome', de
                       button
                       onClick={() => onSelect(id)}
                     >
-                      <ListItemText 
+                      <ListItemText
                       primary={title}/>
                       <ListItemSecondaryAction>
+                        <IconButton onClick={() => onSelectEdit(id)}>
+                          <Edit />
+                        </IconButton>
                         <IconButton onClick={() => onDelete(id)}>
-                          <DeleteIcon />
+                          <Delete />
                         </IconButton>
                       </ListItemSecondaryAction>
                     </ListItem>
                   )}
                 </List>
-          </Fragment> 
-          : null  
+          </Fragment>
+          : null
         )}
       </Paper>
       </Grid>
       <Grid item sm xs={12}>
       <Paper style={styles.Paper}>
-        <Typography variant="display1">
-            {title}
-        </Typography>
-        <Typography variant="subheading" style={{marginTop: 15}}>
-            {description}
-        </Typography>
+        {editMode
+          ? <Form
+              categories={categories}
+              onSubmit={onEdit}
+              exercise={exercise}/>
+        : <Fragment>
+            <Typography variant="display1">
+              {title}
+            </Typography>
+            <Typography variant="subheading" style={{marginTop: 15}}>
+              {description}
+            </Typography>
+          </Fragment>}
       </Paper>
       </Grid>
     </Grid>

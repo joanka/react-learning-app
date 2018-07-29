@@ -8,34 +8,35 @@ class App extends Component {
   state = {
     exercises,
     category: '',
-    exercise: {}
+    exercise: {},
+    editMode: false
   }
-  
+
   getExercisesByCategory() {
     const initExercises = categories.reduce((exercises, category) => (
       {...exercises,
       [category]: []}
     ), {})
-    return Object.entries(this.state.exercises.reduce((exercises, exercise) => {    
+    return Object.entries(this.state.exercises.reduce((exercises, exercise) => {
       const {category} = exercise;
       exercises[category] = [...exercises[category], exercise];
-      return exercises;     
+      return exercises;
     }, initExercises)
     )
   }
-  
+
   handleCategorySelected = category => {
     this.setState({
       category
     })
   }
-  
+
   handleExerciseSelected = id => {
     this.setState(({ exercises }) => ({
-      exercise: exercises.find((ex) => ex.id === id) 
+      exercise: exercises.find((ex) => ex.id === id)
     }))
   }
-  
+
   handleExerciseCreate = exercise => {
     this.setState({
       exercises: [
@@ -44,17 +45,30 @@ class App extends Component {
       ]
     })
   }
-  
+
   handleExerciseDelete = id => {
     this.setState(({exercises}) => ({
       exercises: exercises.filter((ex) => ex.id !== id),
-    }))       
+    }))
   }
-  
+
+  handleExerciseSelectEdit = id => {
+    this.setState(({ exercises }) => ({
+      exercise: exercises.find((ex) => ex.id === id),
+      editMode: true
+    }))
+  }
+
+  handleExerciseEdit = exercise => {
+    this.setState(({ exercises }) => ({
+      exercises: [...exercises.filter((ex) => ex.id !== exercise.id), exercise]
+    }))
+  }
+
   render() {
     console.log(this.getExercisesByCategory());
     const exercises = this.getExercisesByCategory(),
-    { category, exercise } = this.state;
+    { category, exercise, editMode } = this.state;
     return (
       <Fragment>
         <Header
@@ -62,13 +76,17 @@ class App extends Component {
           onExerciseCreate={this.handleExerciseCreate}
         />
         <Exercises
-        exercise={exercise} 
-        exercises={exercises}
-        category={category}
-        onSelect={this.handleExerciseSelected}
-        onDelete={this.handleExerciseDelete}/>
-        <Footer 
-          categories={categories} 
+          exercise={exercise}
+          exercises={exercises}
+          category={category}
+          categories={categories}
+          onSelect={this.handleExerciseSelected}
+          onDelete={this.handleExerciseDelete}
+          onSelectEdit={this.handleExerciseSelectEdit}
+          editMode={editMode}
+          onEdit={this.handleExerciseEdit}/>
+        <Footer
+          categories={categories}
           category={category}
           onSelect={this.handleCategorySelected}/>
       </Fragment>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography} from '@material-ui/core';
-import Create from '../Exercises/Dialogs/Create';
+import Dialog from '../Exercises/Dialog';
 
 
 const Header = ({categories, onExerciseCreate}) => {
@@ -10,7 +10,7 @@ const Header = ({categories, onExerciseCreate}) => {
             <Typography variant="headline" color="inherit" style={{flex: 1}}>
                 Headline
             </Typography>
-            <Create
+            <Dialog
                 categories={categories}
                 onCreate={onExerciseCreate}
             />
