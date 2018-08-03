@@ -21,20 +21,14 @@ export class Form extends Component {
   };
 
   handleSubmit = () => {
-    this.props.onSubmit({ ...this.state, id: this.state.title.toLowerCase().replace(/ /g, '-') })
-
-    this.setState({
-      exercise: {
-        title: '',
-        description: '',
-        category: ''
-      }
+    this.props.onSubmit({ id: this.state.title.toLowerCase().replace(/ /g, '-'),
+    ...this.state
     })
   };
 
   render() {
     const { title, description, category } = this.state,
-          { categories } = this.props
+          { categories, onToggle } = this.props
     return (
       <form>
         <TextField
@@ -69,8 +63,14 @@ export class Form extends Component {
           margin="normal"
         />
         <br/>
-        <Button color="primary" variant="raised" onClick={this.handleSubmit}>
-          Create
+        <Button
+          color="primary"
+          variant="raised"
+          onClick={this.handleSubmit}>
+          {this.props.exercise ? 'Edit' : 'Create'}
+        </Button>
+        <Button color="primary" variant="raised" onClick={onToggle}>
+          Cancel
         </Button>
       </form>
     )

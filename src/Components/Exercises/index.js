@@ -13,12 +13,14 @@ export default ({
   onSelect,
   exercise,
   exercise: {
+    id,
     title = 'Welcome',
     description = 'Please select an exercise from the list on the left.'},
   onDelete,
   onSelectEdit,
   editMode,
-  onEdit}) => {
+  onEdit,
+  onEditToggle}) => {
 
   return (
     <Grid container>
@@ -61,9 +63,11 @@ export default ({
       <Paper style={styles.Paper}>
         {editMode
           ? <Form
-              categories={categories}
-              onSubmit={onEdit}
-              exercise={exercise}/>
+            key={id}
+            categories={categories}
+            onSubmit={onEdit}
+            exercise={exercise}
+            onToggle={onEditToggle}/>
         : <Fragment>
             <Typography variant="display1">
               {title}

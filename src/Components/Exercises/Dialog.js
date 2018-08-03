@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@material-ui/core';
+import { Dialog, DialogContent, DialogContentText, DialogTitle, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Form from './Form';
 
@@ -12,6 +12,11 @@ class Create extends Component {
     this.setState({
       open: !this.state.open
     })
+  }
+
+  handleFormSubmit = exercise => {
+    this.props.onCreate(exercise);
+    this.handleToggle();
   }
 
   render () {
@@ -32,13 +37,12 @@ class Create extends Component {
             <DialogContentText>
               Please fill out the form below
             </DialogContentText>
-            <Form categories={categories}/>
+            <Form
+              categories={categories}
+              onSubmit={this.handleFormSubmit}
+              onToggle={this.handleToggle}
+              />
           </DialogContent>
-          <DialogActions>
-            <Button color="primary" variant="raised" onClick={this.handleToggle}>
-              Cancel
-            </Button>
-          </DialogActions>
         </Dialog>
 
     </Fragment>

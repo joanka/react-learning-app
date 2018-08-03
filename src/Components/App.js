@@ -33,22 +33,22 @@ class App extends Component {
 
   handleExerciseSelected = id => {
     this.setState(({ exercises }) => ({
-      exercise: exercises.find((ex) => ex.id === id)
+      exercise: exercises.find((ex) => ex.id === id),
+      editMode: false
     }))
   }
 
   handleExerciseCreate = exercise => {
-    this.setState({
-      exercises: [
-        ...exercises,
-        exercise
-      ]
-    })
+    this.setState(({ exercises }) => ({
+      exercises: [...exercises, exercise]
+    }))
   }
 
   handleExerciseDelete = id => {
-    this.setState(({exercises}) => ({
+    this.setState(({ exercises, editMode, exercise}) => ({
       exercises: exercises.filter((ex) => ex.id !== id),
+      editMode: exercise.id === id ? false : editMode,
+      exercise: exercise.id === id ? {} : exercise
     }))
   }
 
@@ -61,7 +61,14 @@ class App extends Component {
 
   handleExerciseEdit = exercise => {
     this.setState(({ exercises }) => ({
-      exercises: [...exercises.filter((ex) => ex.id !== exercise.id), exercise]
+      exercises: [...exercises.filter((ex) => ex.id !== exercise.id), exercise],
+      exercise
+    }))
+  }
+  
+  handleExerciseToggle = () => {
+    this.setState(({ editMode }) => ({
+      editMode: false
     }))
   }
 
@@ -84,7 +91,8 @@ class App extends Component {
           onDelete={this.handleExerciseDelete}
           onSelectEdit={this.handleExerciseSelectEdit}
           editMode={editMode}
-          onEdit={this.handleExerciseEdit}/>
+          onEdit={this.handleExerciseEdit}
+          onEditToggle={this.handleExerciseToggle}/>
         <Footer
           categories={categories}
           category={category}
