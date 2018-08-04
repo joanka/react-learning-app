@@ -1,11 +1,11 @@
 import React from 'react';
-import {Paper, Tabs, Tab} from '@material-ui/core';
+import { Paper, Tabs, Tab, withWidth} from '@material-ui/core';
 
-const Footer = ({categories, category, onSelect}) => {
-  const index = category 
-  ? categories.findIndex(el => el === category) + 1 
+const Footer = ({categories, category, onSelect, width}) => {
+  const index = category
+  ? categories.findIndex(el => el === category) + 1
   : 0
-  
+
   return (
     <Paper>
       <Tabs
@@ -15,7 +15,9 @@ const Footer = ({categories, category, onSelect}) => {
         }}
         indicatorColor="primary"
         textColor="primary"
-        centered
+        centered={width !== 'xs'}
+        scrollable={width === 'xs'}
+        scrollButtons="on"
       >
         <Tab label={"All"} />
         {categories.map((category)=>
@@ -26,4 +28,4 @@ const Footer = ({categories, category, onSelect}) => {
   )
 }
 
-export default Footer;
+export default withWidth()(Footer);

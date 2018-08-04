@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { TextField, FormControl, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
+import { TextField, FormControl, Select, MenuItem, InputLabel, DialogActions, Button } from '@material-ui/core';
+
+const styles = {
+  Form: {minWidth: 250},
+  DialogActions: {paddingTop: 15}
+}
 
 export class Form extends Component {
   state = this.getInitState();
@@ -30,15 +35,16 @@ export class Form extends Component {
     const { title, description, category } = this.state,
           { categories, onToggle } = this.props
     return (
-      <form>
+      <form style={styles.Form}>
         <TextField
           label="Title"
           value={title}
           onChange={this.handleChange('title')}
           margin="normal"
+          fullWidth
         />
         <br />
-        <FormControl>
+        <FormControl fullWidth>
           <InputLabel htmlFor="category">Category</InputLabel>
           <Select
             value={category}
@@ -61,17 +67,22 @@ export class Form extends Component {
           value={description}
           onChange={this.handleChange('description')}
           margin="normal"
+          fullWidth
         />
         <br/>
-        <Button
-          color="primary"
-          variant="raised"
-          onClick={this.handleSubmit}>
-          {this.props.exercise ? 'Edit' : 'Create'}
-        </Button>
+        <DialogActions style={styles.DialogActions}>
         <Button color="primary" variant="raised" onClick={onToggle}>
           Cancel
         </Button>
+        <Button
+          color="primary"
+          variant="raised"
+          onClick={this.handleSubmit}
+          disabled={!title || !category}
+          >
+          {this.props.exercise ? 'Edit' : 'Create'}
+        </Button>
+        </DialogActions>
       </form>
     )
   }

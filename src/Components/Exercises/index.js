@@ -4,7 +4,7 @@ import {Delete, Edit} from '@material-ui/icons';
 import Form from './Form';
 
 const styles = {
-  Paper: {padding: 20, margin: 10, height: 500, overflow: 'auto'}
+  Paper: { padding: 20, marginLeft: 0, marginRight: 0, marginTop: 5, marginBottom: 0, height: 500, overflow: 'auto'}
 }
 export default ({
   exercises,
@@ -63,16 +63,16 @@ export default ({
       <Paper style={styles.Paper}>
         {editMode
           ? <Form
-            key={id}
-            categories={categories}
-            onSubmit={onEdit}
-            exercise={exercise}
-            onToggle={onEditToggle}/>
-        : <Fragment>
-            <Typography variant="display1">
+              key={id}
+              categories={categories}
+              onSubmit={onEdit}
+              exercise={exercise}
+              onToggle={onEditToggle}/>
+          : <Fragment>
+            <Typography variant="display1" gutterBottom>
               {title}
             </Typography>
-            <Typography variant="subheading" style={{marginTop: 15}}>
+            <Typography variant="subheading">
               {description}
             </Typography>
           </Fragment>}

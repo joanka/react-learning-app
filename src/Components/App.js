@@ -65,10 +65,11 @@ class App extends Component {
       exercise
     }))
   }
-  
+
   handleExerciseToggle = () => {
-    this.setState(({ editMode }) => ({
-      editMode: false
+    this.setState(() => ({
+      editMode: false,
+      exercise: {}
     }))
   }
 
