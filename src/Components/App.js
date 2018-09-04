@@ -64,6 +64,10 @@ class App extends Component {
       exercises: [...exercises.filter((ex) => ex.id !== exercise.id), exercise],
       exercise
     }))
+    this.setState(({ exercises }) => ({
+      exercise: exercises.find((ex) => ex.id === exercise.id),
+      editMode: false
+    }))
   }
 
   handleExerciseToggle = () => {
@@ -74,7 +78,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.getExercisesByCategory());
     const exercises = this.getExercisesByCategory(),
     { category, exercise, editMode } = this.state;
     return (
